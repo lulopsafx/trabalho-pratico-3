@@ -4,26 +4,8 @@
 #include <math.h>
 #include <time.h>
 #include "headers/pokemon.h"
-#include "headers/trainer.h"
 #include "headers/pokelist.h"
-#include "headers/team.h"
-
-void functionCall(){
-    
-    Pokelist list;
-    int totalPoke,
-    readPokelist(&list, &totalPoke);
-
-    Pokemon pokearray[totalPoke];
-    Pokelist2Array(&list, pokearray, totalPoke);
-
-    sortingAlgorythm(pokearray);
-
-    for(int i = 0; i<totalPoke; i++){
-        printf("%d %s %s %d", pokearray[i].pokedex, pokearray[i].nome, pokearray[i].tipo, pokearray[i].power);
-    }
-}
-
+#include "headers/pokecenter.h"
 
 int main(){
 

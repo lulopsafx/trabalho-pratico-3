@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../headers/pokemon.h"
-#include "../headers/trainer.h"
 #include "../headers/pokelist.h"
 
 

@@ -9,9 +9,8 @@ include_directories(headers)
 set(SOURCES
     main.c
     sources/pokemon.c
-    sources/trainer.c
     sources/pokelist.c
-    sources/team.c
+    sources/pokecenter.c
 )
-add_executable(aedstp2 ${SOURCES})
-target_link_libraries(aedstp2 m)
+add_executable(aedstp3 ${SOURCES})
+target_link_libraries(aedstp3 m)
