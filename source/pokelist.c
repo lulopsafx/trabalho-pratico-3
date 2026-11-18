@@ -51,39 +51,30 @@ void printPokelist(Pokelist* list){
     }  
 }
 
-void readPokelist(Pokelist* list, int* totalPoke, int* totalEnergy){
+void readPokelist(Pokelist* list, int* totalPoke){
     startPokelist(list);
     FILE *arq = fopen("../build/teste.txt", "r");
     if(arq == NULL){
         printf("Erro readPokelist");
     } else {
         char linha[256];
-        int notNull = 0;
         while(fgets(linha, sizeof(linha), arq) != NULL){
-            if(linha[0] == '\n'||linha[0] == '\r'||linha[0] == '\0'){
-                continue;
-            } else {
-                notNull ++;
-                if(notNull == 2){
-                    fscanf(arq, "%d", totalPoke);
-                    fscanf(arq, "%d", totalEnergy);
-                    Pokemon pikachu;
-                    int pokedex;
-                    char nome[20];
-                    char tipo[20];
-                    int power;
-                    int energy;
-                    for(int i = 0; i<*totalPoke; i++){
-                        fscanf(arq, "%d %s %s %d %d", &pokedex, nome, tipo, &power, &energy);
-                        startPokemon(&pikachu, pokedex, nome, tipo, power, energy);
-                        PokelistInsert(list, &pikachu);
-                    }
-                }
+            fscanf(arq, "%d", totalPoke);
+            Pokemon pikachu;
+            int pokedex;
+            char nome[20];
+            char tipo[20];
+            int power;
+            for(int i = 0; i<*totalPoke; i++){
+                fscanf(arq, "%d %s %s %d %d", &pokedex, nome, tipo, &power);
+                startPokemon(&pikachu, pokedex, nome, tipo, power);
+                PokelistInsert(list, &pikachu);
             }
         }
-        fclose(arq);
     }
+    fclose(arq);
 }
+    
 
 void Pokelist2Array(Pokelist* list, Pokemon v[], int totalPoke){
     cell *aux = list->first->next;
