@@ -15,7 +15,7 @@ Criei a estrutura SortingMetric para podemor comparar o numero de comparações 
 Criei a estrutura de pokecenter para deixar mais fácil de eu conseguir trabalhar com os algoritmos de ordenação, e dividir melhor as tarefas dos tads Pokelist e Pokecenter.
 Agora ao invés do pokecenter ser apenas um tad algoritmico, ele que recebe e cuida dos pokemons do arquivo e define as funções de ordenação, além de imprimir as métricas calculadas em arquivo txt e no terminal.
 
-A implementação do quicksort foi completamente baseada na implementação feita pela taís nos slides e peguei apenas uns elementos do quicksort apresentado no livro "Algorithms in C", mais especificamente o uso da função "less_than".
+A implementação do quicksort foi completamente baseada na implementação feita pela taís nos slides e peguei apenas um elementoo do quicksort apresentado no livro "Algorithms in C", mais especificamente o uso da função "comesBefore".
 O insertion foi baseado na lógica apresentada nos slides da taís e também no insertion do apresentado no livro "Introduction to Algorithms".
 
 
