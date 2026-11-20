@@ -7,7 +7,7 @@
 
 // agora o prograa aceita arquivo via argumento (ex: .\tpAeds.exe teste_1000.txt)
 int main(int argc, char* argv[]) {
-    char arquivo[256] = "build/teste.txt";
+    char arquivo[256] = "build/teste100.txt";
     if (argc > 1) {
         snprintf(arquivo, sizeof(arquivo), "%s", argv[1]);
     }
