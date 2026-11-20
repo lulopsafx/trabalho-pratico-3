@@ -1,0 +1,2 @@
+1
+Pokedex: 3 | Nome: Squirtle | Tipo: 42 | Power: 3

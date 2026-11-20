@@ -1,0 +1,10 @@
+--- Metricas de Ordenacao (Insertion Sort (Simples)) ---
+Comparacoes: 156132476
+Movimentacoes: 156157480
+Tempo de execucao: 4.00500 segundos (4005.00000 ms)
+
+--- Metricas de Ordenacao (QuickSort (Sofisticada)) ---
+Comparacoes: 474530
+Movimentacoes: 267108
+Tempo de execucao: 0.01000 segundos (10.00000 ms)
+

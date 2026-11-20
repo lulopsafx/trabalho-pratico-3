@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../headers/pokemon.h"
 
-#define MAX 50000
+#define MAX 100000
 
 typedef struct pokelist {
     Pokemon* itens[MAX];
