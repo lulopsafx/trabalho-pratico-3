@@ -7,13 +7,12 @@
 
 // agora o prograa aceita arquivo via argumento (ex: .\tpAeds.exe teste_1000.txt)
 int main(int argc, char* argv[]) {
-    char arquivo[256] = "build/teste.txt";
+    char arquivo[256] = "build/teste100.txt";
     if (argc > 1) {
         snprintf(arquivo, sizeof(arquivo), "%s", argv[1]);
     }
 
     while (1) {
-        //sorttype = - evita loop infinito caso a entrada seja diferente de 0, 1, 2, aconteceu comigo nos primeiros testes
         int sortType = -1;
         printf("Arquivo atual: %s\n", arquivo);
         printf("Escolha o tipo de ordenação a ser usada:\n");

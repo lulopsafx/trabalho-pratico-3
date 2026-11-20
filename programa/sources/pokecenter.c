@@ -176,7 +176,7 @@ void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_a
     printf("Comparacoes: %lld\n", m.comparacoes);
     printf("Movimentacoes: %lld\n", m.movimentacoes);
     // Imprime o tempo medido na ordenacao com 5 casas decimais
-    printf("Tempo de execucao: %.5f segundos (%.3f ms)\n\n", m.tempo, m.tempo * 1000.0);;
+    printf("Tempo de execucao: %.5f segundos (%.5f ms)\n\n", m.tempo, m.tempo * 1000.0);;
 
     if (nome_arquivo != NULL) {
         FILE* arq = fopen(nome_arquivo, "a");
@@ -188,7 +188,7 @@ void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_a
         fprintf(arq, "Comparacoes: %lld\n", m.comparacoes);
         fprintf(arq, "Movimentacoes: %lld\n", m.movimentacoes);
         //Grava o tempo medido na ordenacao em segundos com 5 casas decimais e em millisegundos com 3 casas decimais.
-        fprintf(arq, "Tempo de execucao: %.5f segundos (%.3f ms)\n\n", m.tempo, m.tempo * 1000.0);
+        fprintf(arq, "Tempo de execucao: %.5f segundos (%.5f ms)\n\n", m.tempo, m.tempo * 1000.0);
         fclose(arq);
     }
 }
@@ -218,11 +218,6 @@ void functionCall2(const char* nome_arquivo) {
 
     SortingMetric m = complexSort(&pc);
     reportRecoveredPokemons(&pc, "saida_sofisticada.txt");
-
-    for (int i = 0; i < pc.recuperados.quantidade; i++) {
-        Pokemon* p = pc.recuperados.itens[i];
-        printf("%d %s %s %d\n", p->pokedex, p->nome, p->tipo, p->power);
-    }
 
     printSortingMetrics("QuickSort (Sofisticada)", m, "metricas_ordenacao.txt");
     freePokecenter(&pc);
