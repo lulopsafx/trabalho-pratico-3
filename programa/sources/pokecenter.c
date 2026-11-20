@@ -112,13 +112,6 @@ void freePokecenter(Pokecenter* pc) {
     }
 }
 
-// retorna tempo em segundos com precisao de nanossegundos.
-static double tempoAtual(void) {
-    struct timespec t;
-    timespec_get(&t, TIME_UTC);
-    return t.tv_sec + t.tv_nsec / 1e9;
-}
-
 // Insertion Sort (Ordenacao Simples)
 SortingMetric simpleSort(Pokecenter* pc) {
     SortingMetric m = {0, 0, 0.0};
@@ -126,8 +119,7 @@ SortingMetric simpleSort(Pokecenter* pc) {
         return m;
     }
 
-
-    double inicio = tempoAtual();
+    clock_t inicio = clock();
 
     Pokemon** v = pc->recuperados.itens;
     int n = pc->recuperados.quantidade;
@@ -152,7 +144,8 @@ SortingMetric simpleSort(Pokecenter* pc) {
         m.movimentacoes++;
     }
 
-    m.tempo = tempoAtual() - inicio;
+    clock_t fim = clock();
+    m.tempo = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
     return m;
 }
@@ -165,14 +158,15 @@ SortingMetric complexSort(Pokecenter* pc) {
     }
 
     // Medicao de tempo feita diretamente dentro da funcao de sort
-    double inicio = tempoAtual();
+    clock_t inicio = clock();
 
     Pokemon** v = pc->recuperados.itens;
     int n = pc->recuperados.quantidade;
 
     QuickSort(v, n, &m);
 
-    m.tempo = tempoAtual() - inicio;
+    clock_t fim = clock();
+    m.tempo = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
     return m;
 }
