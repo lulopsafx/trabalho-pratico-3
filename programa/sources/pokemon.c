@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "../headers/pokemon.h"
 
-void setPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power, int energy) {
+void setPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power) {
     if (pikachu != NULL) {
         pikachu->pokedex = pokedex;
         strncpy(pikachu->nome, nome, 19);
@@ -11,21 +11,19 @@ void setPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int pow
         strncpy(pikachu->tipo, tipo, 19);
         pikachu->tipo[19] = '\0';
         pikachu->power = power;
-        pikachu->energy = energy;
     }
 }
 
-void startPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power, int energy) {
-    setPokemon(pikachu, pokedex, nome, tipo, power, energy);
+void startPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power) {
+    setPokemon(pikachu, pokedex, nome, tipo, power);
 }
 
 void printPokemon(Pokemon* pikachu) {
     if (pikachu != NULL) {
-        printf("Pokemon: %s | Pokedex: %d | Tipo: %s | Power: %d | Energy: %d",
+        printf("Pokemon: %s | Pokedex: %d | Tipo: %s | Power: %d",
                pikachu->nome,
                pikachu->pokedex,
                pikachu->tipo,
-               pikachu->power,
-               pikachu->energy);
+               pikachu->power);
     }
 }

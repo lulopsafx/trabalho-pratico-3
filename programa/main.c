@@ -1,36 +1,39 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <math.h>
-#include <time.h>
 #include "headers/pokemon.h"
 #include "headers/pokelist.h"
 #include "headers/pokecenter.h"
 
-int main() {
-    while (1) {
-        int sortType;
-        printf("Escolha o tipo de ordenação a ser usada:\n");
-        printf("1. Simples        2. Sofisticada\n");
-        scanf("%d", &sortType);
+// agora o prograa aceita arquivo via argumento (ex: .\tpAeds.exe teste_1000.txt)
+int main(int argc, char* argv[]) {
+    char arquivo[256] = "build/teste.txt";
+    if (argc > 1) {
+        snprintf(arquivo, sizeof(arquivo), "%s", argv[1]);
+    }
 
+    while (1) {
+        //sorttype = - evita loop infinito caso a entrada seja diferente de 0, 1, 2, aconteceu comigo nos primeiros testes
+        int sortType = -1;
+        printf("Arquivo atual: %s\n", arquivo);
+        printf("Escolha o tipo de ordenação a ser usada:\n");
+        // Adicionada opcao 0 para sair
+        printf("1. Simples        2. Sofisticada        0. Sair\n");
+        int lido = scanf("%d", &sortType);
+        if (lido == EOF) {
+            break;
+        }
+
+        // removi calculo de tempo do main (ja e medido dentro de simpleSort e complexSort)
         switch (sortType) {
-            case 1: {
-                clock_t inicio = clock();
-                functionCall1();
-                clock_t fim = clock();
-                double tempoGasto = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
-                printf("Tempo de execução: %f segundos\n\n", tempoGasto);
+            case 1:
+                functionCall1(arquivo);
                 break;
-            }
-            case 2: {
-                clock_t inicio = clock();
-                functionCall2();
-                clock_t fim = clock();
-                double tempoGasto = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
-                printf("Tempo de execução: %f segundos\n\n", tempoGasto);
+            case 2:
+                functionCall2(arquivo);
                 break;
-            }
+            case 0:
+                return 0;
             default:
                 printf("Entrada invalida\n");
                 break;

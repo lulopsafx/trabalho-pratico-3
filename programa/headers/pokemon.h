@@ -8,11 +8,11 @@ typedef struct pokemon {
     char nome[20];
     char tipo[20];
     int power;
-    int energy;
+    // [CORRECAO] Removido campo energy (nao existe no TP3)
 } Pokemon;
 
-void setPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power, int energy);
-void startPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power, int energy);
+void setPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power);
+void startPokemon(Pokemon* pikachu, int pokedex, char nome[], char tipo[], int power);
 void printPokemon(Pokemon* pikachu);
 
 #endif

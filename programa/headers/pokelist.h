@@ -19,7 +19,8 @@ Pokemon* searchPokelist(Pokelist* list, int pokedex);
 int getPokelistLength(Pokelist* list);
 long long sumPokelistPower(Pokelist* list);
 void printPokelist(Pokelist* list);
-void readPokelist(Pokelist* list, int* totalPoke);
+// adicionei o parametro nome_arquivo para abrir qualquer arquivo
+void readPokelist(Pokelist* list, int* totalPoke, const char* nome_arquivo);
 void freePokelist(Pokelist* list);
 
 #endif

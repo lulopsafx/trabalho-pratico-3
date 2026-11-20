@@ -11,6 +11,8 @@ typedef struct {
 typedef struct {
     long long comparacoes;
     long long movimentacoes;
+    // [CORRECAO] Adicionado tempo em SortingMetric para contabilizar dentro das funcoes de sort
+    double tempo;
 } SortingMetric;
 
 void startPokecenter(Pokecenter* pc);
@@ -23,7 +25,8 @@ SortingMetric complexSort(Pokecenter* pc);
 
 // Imprime as metricas do metodo escolhido no terminal e grava em arquivo
 void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_arquivo);
-void functionCall1();
-void functionCall2();
+// [CORRECAO] Recebem nome_arquivo para testar qualquer entrada da pasta build
+void functionCall1(const char* nome_arquivo);
+void functionCall2(const char* nome_arquivo);
 
 #endif

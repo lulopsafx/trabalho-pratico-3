@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../headers/pokemon.h"
 #include "../headers/pokelist.h"
 #include "../headers/pokecenter.h"
@@ -12,12 +13,12 @@ static int comesBefore(Pokemon* a, Pokemon* b) {
     return a->pokedex < b->pokedex;
 }
 
-// Implementacao do QuickSort seguindo exatamente a estrutura dos slides
+//Partição do quickksort implementado fortemente baseado nos slides da thais
 static void Particao(int Esq, int Dir, int *i, int *j, Pokemon **A, SortingMetric *m) {
     Pokemon *pivo, *aux;
     *i = Esq;
     *j = Dir;
-    pivo = A[(*i + *j) / 2]; /* obtem o pivo x */
+    pivo = A[(*i + *j) / 2]; 
 
     do {
         while (1) {
@@ -95,12 +96,11 @@ void reportRecoveredPokemons(Pokecenter* pc, const char* nome_arquivo) {
     fprintf(arq, "%d\n", pc->recuperados.quantidade);
     for (int i = 0; i < pc->recuperados.quantidade; i++) {
         Pokemon* p = pc->recuperados.itens[i];
-        fprintf(arq, "Pokedex: %d | Nome: %s | Tipo: %s | Power: %d | Energy: %d\n",
+        fprintf(arq, "Pokedex: %d | Nome: %s | Tipo: %s | Power: %d\n",
                 p->pokedex,
                 p->nome,
                 p->tipo,
-                p->power,
-                p->energy);
+                p->power);
     }
 
     fclose(arq);
@@ -112,12 +112,22 @@ void freePokecenter(Pokecenter* pc) {
     }
 }
 
+// retorna tempo em segundos com precisao de nanossegundos.
+static double tempoAtual(void) {
+    struct timespec t;
+    timespec_get(&t, TIME_UTC);
+    return t.tv_sec + t.tv_nsec / 1e9;
+}
+
 // Insertion Sort (Ordenacao Simples)
 SortingMetric simpleSort(Pokecenter* pc) {
-    SortingMetric m = {0, 0};
+    SortingMetric m = {0, 0, 0.0};
     if (pc == NULL || pc->recuperados.quantidade <= 1) {
         return m;
     }
+
+
+    double inicio = tempoAtual();
 
     Pokemon** v = pc->recuperados.itens;
     int n = pc->recuperados.quantidade;
@@ -142,20 +152,27 @@ SortingMetric simpleSort(Pokecenter* pc) {
         m.movimentacoes++;
     }
 
+    m.tempo = tempoAtual() - inicio;
+
     return m;
 }
 
-// QuickSort baseado nos slides
+//quicksort
 SortingMetric complexSort(Pokecenter* pc) {
-    SortingMetric m = {0, 0};
+    SortingMetric m = {0, 0, 0.0};
     if (pc == NULL || pc->recuperados.quantidade <= 1) {
         return m;
     }
+
+    // Medicao de tempo feita diretamente dentro da funcao de sort
+    double inicio = tempoAtual();
 
     Pokemon** v = pc->recuperados.itens;
     int n = pc->recuperados.quantidade;
 
     QuickSort(v, n, &m);
+
+    m.tempo = tempoAtual() - inicio;
 
     return m;
 }
@@ -163,7 +180,9 @@ SortingMetric complexSort(Pokecenter* pc) {
 void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_arquivo) {
     printf("\n--- Metricas de Ordenacao (%s) ---\n", metodo);
     printf("Comparacoes: %lld\n", m.comparacoes);
-    printf("Movimentacoes: %lld\n\n", m.movimentacoes);
+    printf("Movimentacoes: %lld\n", m.movimentacoes);
+    // Imprime o tempo medido na ordenacao com 5 casas decimais
+    printf("Tempo de execucao: %.5f segundos\n\n", m.tempo);
 
     if (nome_arquivo != NULL) {
         FILE* arq = fopen(nome_arquivo, "a");
@@ -173,21 +192,27 @@ void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_a
         }
         fprintf(arq, "--- Metricas de Ordenacao (%s) ---\n", metodo);
         fprintf(arq, "Comparacoes: %lld\n", m.comparacoes);
-        fprintf(arq, "Movimentacoes: %lld\n\n", m.movimentacoes);
+        fprintf(arq, "Movimentacoes: %lld\n", m.movimentacoes);
+        //Grava o tempo medido na ordenacao com 5 casas decimais
+        fprintf(arq, "Tempo de execucao: %.5f segundos\n\n", m.tempo);
         fclose(arq);
     }
 }
 
-void functionCall1() {
+void functionCall1(const char* nome_arquivo) {
     Pokecenter pc;
     int totalPoke = 0;
 
     startPokecenter(&pc);
-    readPokelist(&pc.recuperados, &totalPoke);
+    readPokelist(&pc.recuperados, &totalPoke, nome_arquivo);
 
     SortingMetric m = simpleSort(&pc);
 
-    for (int i = 0; i < totalPoke; i++) {
+    //arquivo de saida com os Pokemon ordenados
+    reportRecoveredPokemons(&pc, "saida_simples.txt");
+
+    // Usa pc.recuperados.quantidade em vez de totalPoke.
+    for (int i = 0; i < pc.recuperados.quantidade; i++) {
         Pokemon* p = pc.recuperados.itens[i];
         printf("%d %s %s %d\n", p->pokedex, p->nome, p->tipo, p->power);
     }
@@ -196,16 +221,17 @@ void functionCall1() {
     freePokecenter(&pc);
 }
 
-void functionCall2() {
+void functionCall2(const char* nome_arquivo) {
     Pokecenter pc;
     int totalPoke = 0;
 
     startPokecenter(&pc);
-    readPokelist(&pc.recuperados, &totalPoke);
+    readPokelist(&pc.recuperados, &totalPoke, nome_arquivo);
 
     SortingMetric m = complexSort(&pc);
+    reportRecoveredPokemons(&pc, "saida_sofisticada.txt");
 
-    for (int i = 0; i < totalPoke; i++) {
+    for (int i = 0; i < pc.recuperados.quantidade; i++) {
         Pokemon* p = pc.recuperados.itens[i];
         printf("%d %s %s %d\n", p->pokedex, p->nome, p->tipo, p->power);
     }

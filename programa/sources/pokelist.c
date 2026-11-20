@@ -92,34 +92,54 @@ void printPokelist(Pokelist* list) {
     }
 }
 
-void readPokelist(Pokelist* list, int* totalPoke) {
+// read_pokelist recebe nome_arquivo e tenta abrir direto, em build/ ou em ../build/
+void readPokelist(Pokelist* list, int* totalPoke, const char* nome_arquivo) {
     startPokelist(list);
     if (totalPoke != NULL) {
         *totalPoke = 0;
     }
 
-    FILE *arq = fopen("../build/teste.txt", "r");
+    FILE *arq;
+    if (nome_arquivo != NULL) {
+        arq = fopen(nome_arquivo, "r");
+    } else { arq = NULL;}
+
+    if (arq == NULL && nome_arquivo != NULL) {
+        char caminho[300];
+        snprintf(caminho, sizeof(caminho), "build/%s", nome_arquivo);
+        arq = fopen(caminho, "r");
+        if (arq == NULL) {
+            snprintf(caminho, sizeof(caminho), "../build/%s", nome_arquivo);
+            arq = fopen(caminho, "r");
+        }
+    }
     if (arq == NULL) {
-        printf("Erro readPokelist\n");
+        printf("Erro readPokelist ao abrir %s\n", (nome_arquivo != NULL) ? nome_arquivo : "(null)");
         return;
     }
 
+    /* mantive isso pois, iniciar o n=0 é uma boa prática no nosso caso pois como podemos rodar o arquivo mais de uma vez, podemos criar lixo de memória e o n fica com um valor diferente toda vez, mesmo com mesmo arquio.*/
     int n = 0;
     if (fscanf(arq, "%d", &n) == 1) {
         if (totalPoke != NULL) {
             *totalPoke = n;
         }
 
-        int pokedex, power, energy;
+        // removi energy (nao existe na entrada dos testes)
+        int pokedex, power;
         char nome[20];
         char tipo[20];
 
         for (int i = 0; i < n; i++) {
-            if (fscanf(arq, "%d %19s %19s %d %d", &pokedex, nome, tipo, &power, &energy) == 5) {
+            // mudei a verificação do fscanf de 5 campos para 4 campos (pokedex, nome, tipo, power)
+            if (fscanf(arq, "%d %19s %19s %d", &pokedex, nome, tipo, &power) == 4) {
                 Pokemon* pikachu = (Pokemon*) malloc(sizeof(Pokemon));
                 if (pikachu != NULL) {
-                    startPokemon(pikachu, pokedex, nome, tipo, power, energy);
-                    PokelistInsert(list, pikachu);
+                    startPokemon(pikachu, pokedex, nome, tipo, power);
+                    // Libera o pokemon se a lista estiver cheia
+                    if (!PokelistInsert(list, pikachu)) {
+                        free(pikachu);
+                    }
                 }
             }
         }
