@@ -204,13 +204,7 @@ void functionCall1(const char* nome_arquivo) {
 
     //arquivo de saida com os Pokemon ordenados
     reportRecoveredPokemons(&pc, "saida_simples.txt");
-
-    // Usa pc.recuperados.quantidade em vez de totalPoke.
-    for (int i = 0; i < pc.recuperados.quantidade; i++) {
-        Pokemon* p = pc.recuperados.itens[i];
-        printf("%d %s %s %d\n", p->pokedex, p->nome, p->tipo, p->power);
-    }
-
+    //saída em arquivo e no terminal das metricas de ordenação
     printSortingMetrics("Insertion Sort (Simples)", m, "metricas_ordenacao.txt");
     freePokecenter(&pc);
 }
