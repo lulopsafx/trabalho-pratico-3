@@ -176,7 +176,7 @@ void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_a
     printf("Comparacoes: %lld\n", m.comparacoes);
     printf("Movimentacoes: %lld\n", m.movimentacoes);
     // Imprime o tempo medido na ordenacao com 5 casas decimais
-    printf("Tempo de execucao: %.5f segundos\n\n", m.tempo);
+    printf("Tempo de execucao: %.5f segundos (%.3f ms)\n\n", m.tempo, m.tempo * 1000.0);;
 
     if (nome_arquivo != NULL) {
         FILE* arq = fopen(nome_arquivo, "a");
@@ -187,8 +187,8 @@ void printSortingMetrics(const char* metodo, SortingMetric m, const char* nome_a
         fprintf(arq, "--- Metricas de Ordenacao (%s) ---\n", metodo);
         fprintf(arq, "Comparacoes: %lld\n", m.comparacoes);
         fprintf(arq, "Movimentacoes: %lld\n", m.movimentacoes);
-        //Grava o tempo medido na ordenacao com 5 casas decimais
-        fprintf(arq, "Tempo de execucao: %.5f segundos\n\n", m.tempo);
+        //Grava o tempo medido na ordenacao em segundos com 5 casas decimais e em millisegundos com 3 casas decimais.
+        fprintf(arq, "Tempo de execucao: %.5f segundos (%.3f ms)\n\n", m.tempo, m.tempo * 1000.0);
         fclose(arq);
     }
 }
